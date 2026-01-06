@@ -5,21 +5,33 @@ import { getAllProducts, addToCart } from "./api.js";
 
 export async function showHome(app) {
 
-const userName = localStorage.getItem("username") || "Пользователь";
-
-
 app.innerHTML = `
    ${renderHeader()}
-   <div class="container">
-      <header class="home-header">
-        <div class="header-content">
-          <h1 class="logo">Uzum Market</h1>
-          <div class="user-controls">
-            <span>Привет, <b>${userName}</b></span>
-            <button id="logoutBtn" class="logout-btn">Выйти</button>
-          </div>
-        </div>
-      </header>
+     <div class="home-wrapper">
+        <div id="sections-container">
+         </div>
+     </div>
 `
+
+const container = document.getElementById("sections-container");
+
+try {
+  const response = await getAllProducts();
+  const products = response.goods ||  [];
+
+
+  const categories = ["Популярное", "Спортивная одежда", "Активный отдых"];
+
+  categories.forEach(catTitle => {
+    const section = document.createElement("section");
+    section.className = "home-section";
+    section.innerHTML = `
+     <h2 class="category-title">${catTitle}</h2>
+     <div class="products-grid"></div>    
+    `;
+
+    const grid = section.querySelector(".product-grid");
+  })
+}
   
 }    
