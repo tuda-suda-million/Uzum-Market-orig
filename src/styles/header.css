@@ -1,0 +1,142 @@
+.uzum-header {
+    background-color: #ffffff;
+    padding: 12px 0;
+    border-bottom: 1px solid #edeff0;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-main-row {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.logo-name {
+    color: #7000ff;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-family: sans-serif;
+}
+
+
+.catalog-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ecebff;
+    color: #3333cc;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.catalog-btn:hover {
+    background-color: #e2e0ff;
+}
+
+
+.catalog-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.catalog-icon span {
+    display: block;
+    width: 16px;
+    height: 2px;
+    background-color: #3333cc;
+    border-radius: 2px;
+}
+
+.search-bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e5e9;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 15px;
+    font-size: 14px;
+    color: #1f2026;
+}
+
+.search-icon-btn {
+    background: transparent;
+    border: none;
+    padding-right: 15px;
+    color: #8b96a5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #1f2026;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.nav-item:hover {
+    color: #7000ff;
+}
+
+.nav-item svg {
+    stroke: #1f2026;
+}
+
+.nav-item:hover svg {
+    stroke: #7000ff;
+}
+
+
+.cart-count {
+    background-color: #7000ff;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: -4px;
+}
