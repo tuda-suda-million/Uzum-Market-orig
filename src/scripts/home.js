@@ -49,7 +49,7 @@ export async function showHome(app) {
                 const grid = section.querySelector(".products-grid");
 
                 filteredProducts.forEach(item => {
-                    // Берем ПЕРВУЮ картинку из массива media
+                    
                     const mainImage = item.media && item.media[0] ? item.media[0] : "";
                     
                     const card = document.createElement("div");
@@ -72,10 +72,11 @@ export async function showHome(app) {
                                     <span class="new-price">${item.price.toLocaleString()} сум</span>
                                 </div>
                                 <button class="add-to-cart-small" data-id="${item.id}">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                    </svg>
+                                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                   <circle cx="8" cy="21" r="1.5"></circle>
+                                   <circle cx="19" cy="21" r="1.5"></circle>
+                                   <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h9.5a2 2 0 0 0 2-1.6l1.8-9.4h-16"></path>
+                                  </svg>
                                 </button>
                             </div>
                         </div>

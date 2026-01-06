@@ -2,31 +2,33 @@
     max-width: 1240px;
     margin: 0 auto;
     padding: 20px 15px;
-    background-color: #fff;
+    
 }
 
 .home-section {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .category-title {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #1f2026;
 }
 
 .products-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
+    gap: 16px;
 }
 
 .product-card {
     border-radius: 8px;
-    transition: all 0.2s;
+    transition: box-shadow 0.2s;
     position: relative;
     cursor: pointer;
+    padding: 8px;
+    background: #fff;
 }
 
 .product-card:hover {
@@ -36,8 +38,8 @@
 .card-top {
     position: relative;
     background: #f4f5f5;
-    border-radius: 8px;
-    aspect-ratio: 3/4;
+    border-radius: 6px;
+    aspect-ratio: 4/5;
     overflow: hidden;
 }
 
@@ -57,24 +59,24 @@
 }
 
 .card-body {
-    padding: 10px 2px;
+    padding: 8px 2px 2px 2px;
 }
 
 .product-title {
-    font-size: 13px;
+    font-size: 12px;
     color: #1f2026;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     display: -webkit-box;
-    
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.3;
+    line-height: 1.2;
+    height: 30px;
 }
 
 .product-rating {
-    font-size: 11px;
+    font-size: 10px;
     color: #8b96a5;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
 }
 
 .card-bottom {
@@ -95,7 +97,7 @@
 }
 
 .new-price {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #1f2026;
 }
@@ -105,20 +107,37 @@
     height: 32px;
     border-radius: 50%;
     border: 1px solid #e2e5e9;
-    background: #fff;
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
+    color: #242424;
+    transition: all 0.2s ease;
+    padding: 0;
 }
 
 .add-to-cart-small:hover {
     border-color: #7000ff;
-    color: #7000ff;
+    color: #7000ff; 
+    background-color: rgba(112, 0, 255, 0.05);
 }
 
 
-@media (max-width: 1000px) {
-    .products-grid { grid-template-columns: repeat(3, 1fr); }
+.add-to-cart-small svg {
+    margin-right: 1px; 
+    margin-top: 1px;
 }
+
+
+@media (max-width: 1100px) {
+    .products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+}    
