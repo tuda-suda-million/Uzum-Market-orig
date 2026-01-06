@@ -5,11 +5,15 @@ export function renderHeader() {
     <header class="uzum-header">
      <div class="header-main-row">
       <div class="header-logo" id="go-home">
-      <img src="./icons/uzum-logo.png" alt="Uzum" class="logo-icon">
+      <img src="./icons/uzum-logo.png" alt="Uzum Market" class="logo-full-img">
 </div>
 
    <button class="catalog-btn">
      <div class="catalog-icon">
+     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
       <span></span><span></span><span></span>
         </div>
          <span>Каталог</span>
