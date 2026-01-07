@@ -57,6 +57,7 @@ export function showProduct(app, product) {
 
             <div class="product-full-description">
                 <h2 class="section-h2">Описание товара</h2>
+                <br>
                 <p>${product.description}</p>
             </div>
         </div>

@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'Gilroy';
+    src: url('../fonts/Gilroy-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gilroy', sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+
 .home-wrapper {
     max-width: 1240px;
     margin: 0 auto;

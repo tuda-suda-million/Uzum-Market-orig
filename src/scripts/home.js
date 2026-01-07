@@ -6,6 +6,7 @@ import { getAllProducts, addToCart } from "./api.js";
 
 export async function showHome(app) {
     app.innerHTML = `
+    <br>
         ${renderHeader()}
         <div class="home-wrapper">
             <div id="sections-container">

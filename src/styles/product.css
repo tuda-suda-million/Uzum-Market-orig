@@ -193,7 +193,7 @@ product-page {
     background: #fff;
 }
 
-/* Галерея */
+
 .product-media-section {
     display: flex;
     gap: 15px;
@@ -237,7 +237,7 @@ product-page {
     height: auto;
 }
 
-/* Правая колонка */
+
 .product-details-section {
     flex: 1;
     display: flex;
@@ -261,7 +261,7 @@ product-page {
     margin-left: 10px;
 }
 
-/* Кнопки как на скриншоте */
+
 .p-actions {
     margin-top: 30px;
     display: flex;
@@ -295,3 +295,51 @@ product-page {
     border-top: 1px solid #eee;
     padding-top: 20px;
 }
+
+.p-price-container {
+    margin-top: 15px;
+}
+
+.p-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.p-quantity-wrapper {
+    margin-bottom: 20px;
+}
+
+.q-selector {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e2e5e9;
+    border-radius: 4px;
+    height: 30px;
+}
+
+.q-minus, .q-plus {
+    width: 30px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    color: #1f2026;
+    cursor: pointer;
+}
+
+.q-count {
+    width: 32px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #1f2026;
+}
+
+.p-divider {
+    border: none;
+    border-top: 1px solid #f2f4f7;
+    margin: 15px 0;
+}
+
