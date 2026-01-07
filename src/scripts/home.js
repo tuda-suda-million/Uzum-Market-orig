@@ -96,5 +96,6 @@ export async function showHome(app) {
     } catch (err) {
         container.innerHTML = `<p class="error">Ошибка: ${err.message}</p>`;
     }
+    setupGalleryLogic();
 }
 
