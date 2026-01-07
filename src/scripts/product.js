@@ -3,11 +3,16 @@ import "../styles/product.css"
 
 
 export function showProduct(app, product) {
+
+    const productUrl = `?id=${product.id}`;
+    if (window.location.search !== productUrl) {
+        window.history.pushState({ productId: product.id }, '', productUrl);
+    }
+
     window.scrollTo(0, 0);
 
     app.innerHTML = `
         ${renderHeader()}
-        
 <div class="product-container">
             <div class="product-card-view">
                 
@@ -62,6 +67,15 @@ export function showProduct(app, product) {
             </div>
         </div>
     `;
+
+           document.getElementById('go-home').addEventListener('click', () => {
+        window.history.pushState({}, '', '/');
+        location.reload();
+    });
+
+    window.onpopstate = function() {
+    location.reload();
+};
 
     const counterText = document.getElementById('counter');
     const btnPlus = document.getElementById('increment');
