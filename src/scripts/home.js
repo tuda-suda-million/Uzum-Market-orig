@@ -1,4 +1,5 @@
 import "../styles/home.css";
+import { showProduct } from "./product.js";
 import "../styles/header.css";
 import { renderHeader } from "../components/Header.js";
 import { getAllProducts, addToCart } from "./api.js";
