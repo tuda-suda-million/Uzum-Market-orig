@@ -33,7 +33,8 @@ export async function showHome(app) {
             "furniture": "Мебель для геймеров",
             "PC": "Компьютеры и комплектующие",
             "audio": "Аудио и аксессуары",
-            "TV": "Телевизоры"
+            "TV": "Телевизоры",
+            "kitchen": "Кухонные аксессуары"
         };
 
         Object.keys(types).forEach(typeKey => {
