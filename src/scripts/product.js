@@ -18,26 +18,29 @@ export function showProduct(app, product) {
                         </div>
                     </div>
                     
-                    <div class="product-info">
-                        <div class="product-rating">⭐ ${product.rating} (более 500 заказов)</div>
-                        <h1 class="product-title-large">${product.title}</h1>
-                        
-                        <div class="price-section">
-                            <span class="price-current">${product.price.toLocaleString()} сум</span>
-                            ${product.salePercentage > 0 ? `<span class="price-old">${Math.round(product.price * 1.3).toLocaleString()} сум</span>` : ''}
-                        </div>
- 
-            <div class="product-description">
-                            <h3>Описание товара</h3>
-                            <p>${product.description || "Описание скоро появится..."}</p>
-                        </div>
+        <div class="product-info">
+          <div class="product-meta">
+            <span class="rating-stars">⭐ ${product.rating}</span>
+            <span class="orders-count">Более 500 заказов</span>
+        </div>
+    
+        <h1 class="product-title-large">${product.title}</h1>
+    
+         <div class="price-section">
+            <p class="price-label">Цена:</p>
+            <div class="price-row">
+            <span class="price-current">${product.price.toLocaleString()} сум</span>
+            ${product.salePercentage > 0 ? `<span class="price-old">${Math.round(product.price * 1.3).toLocaleString()} сум</span>` : ''}
+         </div>
+    </div>
 
-                        <div class="actions">
-                            <button class="btn-primary add-to-cart-big">Добавить в корзину</button>
-                            <button class="btn-secondary add-to-fav">В избранное</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="actions-group">
+        <button class="btn-primary">Добавить в корзину</button>
+        <button class="btn-favorite-big">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </button>
+    </div>
+    </div>
             </div>
         </main>                        
     `;
