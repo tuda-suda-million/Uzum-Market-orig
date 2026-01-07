@@ -81,6 +81,12 @@ export async function showHome(app) {
                             </div>
                         </div>
                     `;
+
+                    card.addEventListener('click', (e) => {
+                      if (!e.target.closest('.add-to-cart-small')) {
+                        showProduct(document.getElementById('app'), item);
+                      }
+                    })
                     grid.appendChild(card);
                 });
             }
