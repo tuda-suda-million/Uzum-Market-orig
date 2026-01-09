@@ -4,9 +4,10 @@ import "../styles/register.css";
 export function showLogin(app) {
   app.innerHTML = `
     <div class="app">
+    <div class="reg-page">
       <div class="register">
         <h1 class="register_title">Регистрация</h1>
-        
+        <br>
         <input class="register_input" type="text" id="user-name" placeholder="Имя">
         <input class="register_input" id="user-phone" type="tel" value="+998 " placeholder="00 000-00-00">
 
@@ -15,7 +16,8 @@ export function showLogin(app) {
         <button class="register_btn" id="registerBtn">
           Зарегистрироваться
         </button>
-
+        <br></br>
+        <br>
         <p class="reg-text">
           Продолжая, я соглашаюсь с 
           <a href="https://legal.uzum.uz/privacy-policy-uz.html">политикой обработки персональных данных</a> 
@@ -23,6 +25,7 @@ export function showLogin(app) {
           <br><br>
           <a href="#">Что такое Uzum ID?</a>
         </p>
+      </div>
       </div>
     </div>
   `;

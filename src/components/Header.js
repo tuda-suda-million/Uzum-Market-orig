@@ -1,3 +1,4 @@
+import "../scripts/catalog.js"
 export function renderHeader() {
   const userName = localStorage.getItem("username");
 
@@ -10,15 +11,9 @@ export function renderHeader() {
       <img src="./icons/uzum-logo.png" alt="Uzum Market" class="logo-full-img">
        </div>
 
-<button class="catalog-btn id="catalog-trigger">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-          <span>Каталог</span>
-        </button>
-
+<button class="catalog-btn" id="catalog-trigger">
+    <span>Каталог</span>
+</button>
         <div class="search-bar">
           <input type="text" placeholder="Искать товары" id="search-input">
           <button class="search-icon-btn">

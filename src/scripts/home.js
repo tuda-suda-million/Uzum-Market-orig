@@ -98,37 +98,7 @@ export async function showHome(app) {
     } catch (err) {
         container.innerHTML = `<p class="error">Ошибка: ${err.message}</p>`;
     }
-    setupGalleryLogic();
+    
 
-
-    const catalogTrigger = document.getElementById('catalog-trigger'); 
-
-    const catalogHTML = `
-<div class="catalog-overlay" id="catalog-menu">
-        <div class="container">
-            <p style="color: #aeb1b9; margin-bottom: 20px;">Категории товаров</p>
-            <div class="category-list">
-                <div class="category-item">Бытовая техника <span class="category-badge">33 товара</span></div>
-                <div class="category-item">Одежда <span class="category-badge">33 товара</span></div>
-                <div class="category-item">Обувь <span class="category-badge">33 товара</span></div>
-                </div>
-        </div>
-    </div>           
-    `;
-
-document.body.insertAdjacentHTML('beforeend', catalogHtml);
-
-const catalogMenu = document.getElementById('catalog-menu');
-
-catalogTrigger.onclick = (e) => {
-    e.stopPropagation();
-    catalogMenu.classList.toggle('active');
-};
-
-document.onclick = (e) => {
-    if (!catalogMenu.contains(e.target) && e.target !== catalogTrigger) {
-        catalogMenu.classList.remove('active');
-    }
-};
 }
 
