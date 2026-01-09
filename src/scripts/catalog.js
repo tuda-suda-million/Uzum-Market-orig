@@ -16,15 +16,34 @@ export function initCatalog() {
         const menu = document.getElementById('catalog-menu');
 
         if (btn) {
-            if (menu) {
-                menu.classList.toggle('active');
-            } else {
+            if (!menu) {
                 fetchDataAndRender();
+            } else {
+                const isOpen = menu.classList.contains('active');
+                toggleMenu(!isOpen);
             }
-        } else if (menu && !menu.contains(e.target)) {
-            menu.classList.remove('active');
+            
+        }else if (menu && !menu.contains(e.target) && menu.classList.contains('active')) {
+            toggleMenu(false);
         }
     });
+}
+
+
+function toggleMenu(open) {
+    const menu = document.getElementById('catalog-menu');
+    const app = document.getElementById('app'); 
+    const body = document.body;
+
+    if (open) {
+        menu.classList.add('active');
+        app.classList.add('main-blur'); 
+        body.classList.add('no-scroll');
+    } else {
+        menu.classList.remove('active');
+        app.classList.remove('main-blur');
+        body.classList.remove('no-scroll');
+    }
 }
 
 async function fetchDataAndRender() {
@@ -43,7 +62,7 @@ async function fetchDataAndRender() {
         }, {});
 
         renderCatalogUI(counts);
-        document.getElementById('catalog-menu').classList.add('active');
+        toggleMenu(true);
     } catch (err) {
         console.error("Ошибка каталога:", err);
     }
@@ -78,7 +97,7 @@ function renderCatalogUI(counts) {
     menu.querySelectorAll('.category-item').forEach(item => {
         item.onclick = () => {
             const selectedType = item.getAttribute('data-category');
-            menu.classList.remove('active');
+            toggleMenu(false);
             showHome(document.getElementById('app'), selectedType);
         };
     });

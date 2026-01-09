@@ -1,0 +1,72 @@
+#app {
+    transition: filter 0.3s ease, transform 0.3s ease;
+    will-change: filter;
+}
+
+#app.main-blur {
+    filter: blur(8px) brightness(0.8); 
+    pointer-events: none;             
+    user-select: none;               
+}
+
+
+.no-scroll {
+    overflow: hidden;
+}
+
+
+.catalog-overlay {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    z-index: 10000;
+    padding: 40px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-top: 1px solid #ebedf0;
+    
+}
+
+.catalog-overlay.active {
+    display: block !important;
+}
+
+.catalog-subtitle {
+    color: #aeb1b9;
+    font-size: 14px;
+    margin-bottom: 25px;
+    font-family: 'Gilroy', sans-serif;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.category-item {
+    font-family: 'Gilroy', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2026;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.category-item:hover {
+    color: #7000ff;
+}
+
+.category-badge {
+    background: #7000ff;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 12px;
+}
