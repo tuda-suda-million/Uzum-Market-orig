@@ -1,0 +1,26 @@
+.favorite-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 100;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #aeb1b9;
+}
+
+.favorite-btn.is-active {
+    fill: #7000ff !important; 
+    stroke: #7000ff !important
+}
+
+.favorite-btn svg {
+    transition: all 0.3s ease;
+    fill: none;
+    stroke: #b2b5bb;
+    pointer-events: none;
+}
+
+.favorite-btn:hover svg {
+    stroke: #7000ff;
+}

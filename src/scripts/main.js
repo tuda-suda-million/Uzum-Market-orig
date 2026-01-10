@@ -7,24 +7,22 @@ document.addEventListener('click', (e) => {
     const favBtn = e.target.closest('.favorite-btn');
     const productCard = e.target.closest('.product-card');
 
-    // 1. Если нажали на СЕРДЕЧКО
+    
     if (favBtn) {
         e.preventDefault();
-        e.stopPropagation(); // Остановка всплытия события к карточке
+        e.stopPropagation();
 
         const productId = Number(favBtn.getAttribute('data-id'));
         const isAdded = toggleFavorite(productId);
         
-        // Сразу меняем класс в DOM
+        
         favBtn.classList.toggle('is-active', isAdded);
-        return; // Прерываем функцию, чтобы не сработал код ниже
+        return; 
     }
 
-    // 2. Если нажали на КАРТОЧКУ (но не на сердечко)
+    
     if (productCard) {
         const id = productCard.getAttribute('data-id');
-        // Здесь ваш код перехода, например:
-        // window.location.hash = `/product/${id}`;
     }
 });
 
