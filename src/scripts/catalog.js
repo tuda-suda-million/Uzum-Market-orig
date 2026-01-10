@@ -7,7 +7,7 @@ const categoryNames = {
     "PC": "Компьютеры",
     "audio": "Аудио",
     "TV": "Телевизоры",
-    "kitchen": "Кухоныые аксессуары"
+    "kitchen": "Кухонные аксессуары"
 };
 
 export function initCatalog() {
