@@ -6,7 +6,7 @@ import { renderHeader } from "../components/Header.js";
 import "../styles/favorite.css"
 import { getAllProducts, addToCart } from "./api.js";
 
-export async function showHome(app) {
+export async function showHome(app, scrollToCategory = null) {
     app.innerHTML = `
         <br>
         ${renderHeader()}
@@ -44,6 +44,7 @@ export async function showHome(app) {
             if (filteredProducts.length > 0) {
                 const section = document.createElement("section");
                 section.className = "home-section";
+                section.id = `section-${typeKey}`;
                 section.innerHTML = `
                     <h2 class="category-title">${types[typeKey]}</h2>
                     <div class="products-grid"></div>
@@ -88,6 +89,22 @@ export async function showHome(app) {
                             </div>
                         </div>
                     `;
+
+                if (scrollToCategory) {
+                  setTimeout(() => {
+                  const target = document.getElementById(`section-${scrollToCategory}`);
+                  if (target) {
+                    const headerOffset = 100; 
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                });
+            }
+        }, 100);
+    }
 
                     card.addEventListener('click', (e) => {
                         const isFavClick = e.target.closest('.favorite-btn');
