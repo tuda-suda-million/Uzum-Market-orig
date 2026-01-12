@@ -19,8 +19,21 @@ document.addEventListener('click', (e) => {
         }
 
         const isAdded = toggleFavorite(Number(productId));
-        
         favBtn.classList.toggle('is-active', isAdded);
+
+        const isFavoritePage = document.querySelector('.page-title-main'); 
+    if (isFavoritePage && !isAdded) {
+        const card = favBtn.closest('.product-card');
+        card.style.opacity = '0';
+        setTimeout(() => {
+            card.remove();
+            
+            
+            if (document.querySelectorAll('.product-card').length === 0) {
+                renderFavoritePage(document.getElementById('app'));
+            }
+        }, 300);
+    }
         
         return;
     }
@@ -40,8 +53,17 @@ const app = document.getElementById("app");
 const token = localStorage.getItem("access-token");
 
 async function startApp() {
-    initCatalog(); 
-    await showHome(app); 
+
+  initCatalog();
+    
+  const token = localStorage.getItem("access-token");
+
+if (token) {
+      await showHome(app); 
+    } else {
+        showLogin(app); 
+    }
+    
 }
 
 

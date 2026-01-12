@@ -1,6 +1,7 @@
 import "../styles/favorite.css"
 import { showProduct } from "./product.js";
 import { getAllProducts } from "./api.js";
+import { renderHeader } from "../components/Header.js";
 
 
 export function getFavorites() {
@@ -29,15 +30,17 @@ export function toggleFavorite(id) {
     return isAdded;
 }
 
-// --- ОТРИСОВКА СТРАНИЦЫ (ПО МАКЕТУ) ---
+
 
 export async function renderFavoritePage(app) {
     window.scrollTo(0, 0);
 
-    app.innerHTML = `
+app.innerHTML = renderHeader(); 
+
+    app.innerHTML += `
         <div class="container favorites-page">
             <div id="favorites-content">
-                <p class="loading">Загрузка...</p>
+                <p class="loading">Загрузка ваших товаров...</p>
             </div>
         </div>
     `;
@@ -45,7 +48,7 @@ export async function renderFavoritePage(app) {
     const content = document.getElementById('favorites-content');
 
     try {
-        const favoriteIds = getFavorites(); // Используем функцию, которая объявлена выше
+        const favoriteIds = getFavorites();
         const response = await getAllProducts();
         const products = response.goods || [];
 
@@ -56,7 +59,7 @@ export async function renderFavoritePage(app) {
         if (favoriteProducts.length === 0) {
             content.innerHTML = `
                 <div class="empty-favorites-container">
-                    <img src="https://uzum.uz/static/img/hearts.cf41445.png" alt="Hearts" class="empty-img">
+                    <img src="./images/hearts 1.png" alt="Hearts" class="empty-img">
                     <h2 class="empty-title">Добавьте то, что понравилось</h2>
                     <p class="empty-text">Перейдите на главную страницу и нажмите на ♡ в товаре</p>
                     <button class="go-home-btn" id="to-home">На главную</button>
@@ -66,6 +69,7 @@ export async function renderFavoritePage(app) {
             return;
         }
 
+        
         content.innerHTML = `
             <h1 class="page-title-main">Избранное</h1>
             <div class="products-grid">
@@ -82,26 +86,26 @@ export async function renderFavoritePage(app) {
                         </div>
                         <div class="card-body">
                             <p class="product-title">${item.title}</p>
-                            <div class="price-section">
-                                <div class="price-info">
+                            <div class="card-bottom">
+                                <div class="price-box">
                                     <span class="old-price">${Math.round(item.price * 1.3).toLocaleString()} сум</span>
                                     <span class="new-price">${item.price.toLocaleString()} сум</span>
                                 </div>
-                                <button class="cart-btn-small">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-                                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                <button class="add-to-cart-small">
+                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="8" cy="21" r="1.5"></circle>
+                                        <circle cx="19" cy="21" r="1.5"></circle>
+                                        <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h9.5a2 2 0 0 0 2-1.6l1.8-9.4h-16"></path>
                                     </svg>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    `).join('')}
+                `).join('')}
             </div>
         `;
     } catch (err) {
         console.error(err);
-        content.innerHTML = `<p>Ошибка загрузки избранного</p>`;
+        content.innerHTML = `<p>Ошибка загрузки</p>`;
     }
 }
