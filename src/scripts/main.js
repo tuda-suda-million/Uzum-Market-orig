@@ -45,8 +45,17 @@ document.addEventListener('click', (e) => {
     if (favLink) {
         e.preventDefault();
         const app = document.getElementById('app');
+        history.pushState({ page: 'favorites' }, 'Избранное', '#favorites');
         renderFavoritePage(app);
     }
+    window.onpopstate = function(event) {
+    const app = document.getElementById('app');
+    if (event.state && event.state.page === 'favorites') {
+        renderFavoritePage(app);
+    } else {
+        showHome(app);
+    }
+};
 })
 
 const app = document.getElementById("app");

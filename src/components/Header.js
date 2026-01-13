@@ -1,4 +1,5 @@
 import "../scripts/catalog.js"
+import "../styles/favorite.css"
 export function renderHeader() {
   const userName = localStorage.getItem("username");
 
