@@ -1,18 +1,4 @@
-
 const BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
-
-
-export async function getAllProducts() {
-  try {
-    const res = await fetch("/backend/db.json");
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error("Ошибка при получении товаров:", error);
-    throw error;
-  }
-}
-
 
 export async function loginUser(phone, password) {
   try {
@@ -32,23 +18,34 @@ export async function loginUser(phone, password) {
 }
 
 
-export async function addToCart(productId) {
+export async function getAllProducts() {
   try {
-    const token = localStorage.getItem("access-token");
-    
-    const res = await fetch(`${BASE_URL}/api/v1/user/cart/${productId}`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`, 
-      },
-    });
-    
-    const data = await res.json();
-    return data;
+    const res = await fetch("/backend/db.json");
+    return await res.json();
   } catch (error) {
-    console.error("Ошибка при добавлении в корзину:", error);
+    console.error("Ошибка при получении товаров:", error);
     throw error;
   }
 }
+
+export function addToCart(productId) {
+  const id = Number(productId);
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const existingItem = cart.find(item => item.id === id);
+
+  if (existingItem) {
+    if (existingItem.quantity >= 7) {
+            alert("Нельзя заказать более 7 единиц одного товара");
+            return { success: false, message: "limit_reached" };
+        }
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ id: id, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    return { success: true };
+}
+
 
 

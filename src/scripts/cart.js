@@ -2,121 +2,88 @@ import { renderHeader } from "../components/Header.js";
 import { getAllProducts } from "./api.js";
 import "../styles/cart.css";
 
-export function getCart() {
-    return JSON.parse(localStorage.getItem("cart") || "[]");
-}
-
-export function updateCart(id, delta) {
-    let cart = getCart();
-    const item = cart.find(i => i.id === Number(id));
-    
-    if (item) {
-        item.count += delta;
-        if (item.count <= 0) {
-            cart = cart.filter(i => i.id !== Number(id));
-        }
-    } else if (delta > 0) {
-        cart.push({ id: Number(id), count: 1 });
+export function updateCartCounter() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badge = document.querySelector('.header-cart-count'); 
+    if (badge) {
+        badge.textContent = totalCount;
+        badge.style.display = totalCount > 0 ? 'flex' : 'none';
     }
-    
-    localStorage.setItem("cart", JSON.stringify(cart));
-    return cart;
-}
-
-export function removeFromCart(id) {
-    let cart = getCart().filter(i => i.id !== Number(id));
-    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 export async function renderCartPage(app) {
-    window.scrollTo(0, 0);
-    const cartData = getCart();
-    
-    
-    if (cartData.length === 0) {
-        app.innerHTML = `
-            ${renderHeader()}
-            <div class="container empty-cart">
-                <img src="https://uzum.uz/static/img/shop-icons/shopping-cart-empty.png" alt="Empty Cart" class="empty-img">
-                <h2>В корзине пока нет товаров</h2>
-                <p>Начните с подборок на главной странице или найдите нужный товар через поиск</p>
-                <button class="go-home-btn" onclick="location.reload()">На главную</button>
-            </div>
-        `;
-        return;
-    }
+    app.innerHTML = "";
 
-    try {
-        const response = await getAllProducts();
-        const allProducts = response.goods || [];
-        
-        const cartProducts = cartData.map(cartItem => {
-            const product = allProducts.find(p => p.id === cartItem.id);
-            return { ...product, count: cartItem.count };
-        }).filter(p => p.title);
+    const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const data = await getAllProducts();
+    const products = data.goods || [];
 
-        const totalItems = cartProducts.reduce((sum, p) => sum + p.count, 0);
-        const totalPrice = cartProducts.reduce((sum, p) => sum + (p.price * p.count), 0);
-        const oldTotalPrice = Math.round(totalPrice * 1.3);
+    const cartProducts = localCart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        return { ...product, quantity: item.quantity };
+    }).filter(p => p.title);
 
-        app.innerHTML = `
-            ${renderHeader()}
-            <div class="container cart-page">
-                <h1 class="page-title">Корзина товаров</h1>
-                <div class="cart-layout">
-                    <div class="cart-items-list">
-                        ${cartProducts.map(item => `
-                            <div class="cart-item" data-id="${item.id}">
-                                <img src="${item.media[0]}" alt="${item.title}" class="cart-item-img">
-                                <div class="cart-item-info">
-                                    <p class="cart-item-title">${item.title}</p>
-                                    <p class="cart-item-price-single">${item.price.toLocaleString()} сум / шт.</p>
-                                    <div class="cart-controls">
-                                        <div class="counter">
-                                            <button class="count-btn minus" data-id="${item.id}">-</button>
-                                            <span class="count-value">${item.count}</span>
-                                            <button class="count-btn plus" data-id="${item.id}">+</button>
-                                        </div>
-                                        <button class="delete-btn" data-id="${item.id}">Удалить</button>
+    const totalPrice = cartProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+
+    app.innerHTML = `
+        ${renderHeader()}
+        <div class="cart-container">
+            <h1 class="cart-title">Корзина товаров</h1>
+            <div class="cart-layout">
+                <div class="cart-white-box">
+                    ${cartProducts.map(item => `
+                        <div class="cart-item-row" data-id="${item.id}">
+                            <div class="cart-item-left">
+                                <img src="${item.media[0]}" class="cart-img">
+                            </div>
+                            <div class="cart-item-info">
+                                <h3 class="cart-item-title">${item.title}</h3>
+                                <p class="cart-item-price">${item.price.toLocaleString()} сум</p>
+                                
+                                <div class="cart-controls-group">
+                                    <div class="quantity-picker">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty-num">${item.quantity}</span>
+                                        <button class="qty-btn plus" ${item.quantity >= 7 ? 'disabled' : ''}>+</button>
                                     </div>
-                                </div>
-                                <div class="cart-item-total-price">
-                                    ${(item.price * item.count).toLocaleString()} сум
+                                    <button class="cart-remove-button">Удалить</button>
                                 </div>
                             </div>
-                        `).join('')}
-                    </div>
-
-                    <div class="cart-summary">
-                        <p class="summary-total-price">${totalPrice.toLocaleString()} сум</p>
-                        <div class="summary-details">
-                            <span>Итого товаров: ${totalItems}</span>
-                            <span>Итого скидки: ${(oldTotalPrice - totalPrice).toLocaleString()} сум</span>
                         </div>
-                        <button class="order-btn">Оформить</button>
-                    </div>
+                    `).join('')}
+                </div>
+                <div class="cart-total-panel">
+                    <div class="total-amount">${totalPrice.toLocaleString()} сум</div>
+                    <button class="checkout-btn">Оформить</button>
                 </div>
             </div>
-        `;
+        </div>
+    `;
 
-        setupCartListeners(app);
-    } catch (err) {
-        console.error(err);
-    }
+    setupEventListeners(app);
 }
 
-function setupCartListeners(app) {
-    app.addEventListener('click', (e) => {
-        const id = e.target.dataset.id;
-        if (e.target.classList.contains('plus')) {
-            updateCart(id, 1);
-            renderCartPage(app);
-        } else if (e.target.classList.contains('minus')) {
-            updateCart(id, -1);
-            renderCartPage(app);
-        } else if (e.target.classList.contains('delete-btn')) {
-            removeFromCart(id);
-            renderCartPage(app);
+function setupEventListeners(app) {
+    app.onclick = (e) => {
+        const btn = e.target;
+        const row = btn.closest('.cart-item-row');
+        if (!row) return;
+
+        const id = Number(row.dataset.id);
+        let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const item = cart.find(i => i.id === id);
+
+        if (btn.classList.contains('plus')) {
+            if (item.quantity < 7) item.quantity++;
+        } else if (btn.classList.contains('minus')) {
+            if (item.quantity > 1) item.quantity--;
+        } else if (btn.classList.contains('cart-remove-button')) {
+            cart = cart.filter(i => i.id !== id);
         }
-    });
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCartPage(app);
+        updateCartCounter();
+    };
 }

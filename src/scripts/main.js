@@ -3,6 +3,8 @@ import { showHome } from "./home.js";
 import { initCatalog } from "./catalog.js"
 import { toggleFavorite } from "./favorite.js";
 import { renderFavoritePage } from "./favorite.js";
+import { addToCart } from "./api.js";
+import { updateCartCounter } from "./cart.js";
 
 document.addEventListener('click', (e) => {
     const favBtn = e.target.closest('.favorite-btn');
@@ -36,6 +38,43 @@ document.addEventListener('click', (e) => {
     }
         
         return;
+    }
+});
+
+document.addEventListener('click', async (e) => {
+    const cartBtn = e.target.closest('.add-to-cart-small');
+
+    if (cartBtn) {
+        const id = cartBtn.getAttribute('data-id');
+        const originalBg = cartBtn.style.backgroundColor;
+        e.preventDefault();
+        const productId = cartBtn.getAttribute('data-id');
+
+        try {
+            await addToCart(productId);
+            
+            let localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+            const item = localCart.find(i => i.id === Number(productId));
+            if (item) item.quantity++; else localCart.push({id: Number(productId), quantity: 1});
+            localStorage.setItem("cart", JSON.stringify(localCart));
+
+            const originalContent = cartBtn.innerHTML;
+
+            addToCart(id);
+            updateCartCounter();
+
+            cartBtn.innerHTML = "✓";
+            cartBtn.style.background = "#20b41c";
+            setTimeout(() => {
+            cartBtn.innerHTML = originalContent;    
+            cartBtn.style.backgroundColor = originalBg; 
+            cartBtn.style.color = "";              
+            cartBtn.style.pointerEvents = "auto";
+            }, 1000);
+
+        } catch (err) {
+            console.error("Ошибка при добавлении:", err);
+        }
     }
 });
 
