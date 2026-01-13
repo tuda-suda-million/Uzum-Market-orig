@@ -7,6 +7,7 @@ import "../styles/favorite.css"
 import { getAllProducts, addToCart } from "./api.js";
 import { renderPromoSwiper } from "../components/swiper.js";
 import "../styles/swiper.css"
+import { renderFooter } from "../components/Footer.js";
 
 function createProductCard(item) {
     const mainImage = item.media && item.media[0] ? item.media[0] : "";
@@ -79,6 +80,7 @@ app.innerHTML = `
                 <p class="loading">Загрузка товаров...</p>
             </div>
         </div>
+        ${renderFooter()}
     `;
     
     const container = document.getElementById("sections-container");
