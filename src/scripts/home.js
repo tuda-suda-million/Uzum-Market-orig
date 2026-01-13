@@ -5,6 +5,8 @@ import { isFavorite } from "./favorite.js";
 import { renderHeader } from "../components/Header.js";
 import "../styles/favorite.css"
 import { getAllProducts, addToCart } from "./api.js";
+import { renderPromoSwiper } from "../components/swiper.js";
+import "../styles/swiper.css"
 
 function createProductCard(item) {
     const mainImage = item.media && item.media[0] ? item.media[0] : "";
@@ -68,10 +70,11 @@ export function renderProducts(productsList) {
 
 
 export async function showHome(app, scrollToCategory = null) {
-    app.innerHTML = `
+app.innerHTML = `
         <br>
         ${renderHeader()}
         <div class="home-wrapper">
+            <div id="swiper-container-main"></div> 
             <div id="sections-container">
                 <p class="loading">Загрузка товаров...</p>
             </div>
@@ -84,11 +87,13 @@ export async function showHome(app, scrollToCategory = null) {
         const response = await getAllProducts();
         const products = response.goods || [];
 
+        const discountItems = products.filter(item => item.salePercentage > 0);
+        renderPromoSwiper(discountItems);
+
         if (products.length === 0) {
             container.innerHTML = "<p>Товары не найдены</p>";
             return;
         }
-
         container.innerHTML = ""; 
 
         const types = {
@@ -101,6 +106,7 @@ export async function showHome(app, scrollToCategory = null) {
 
         Object.keys(types).forEach(typeKey => {
             const filteredProducts = products.filter(p => p.type === typeKey);
+            
             if (filteredProducts.length > 0) {
                 const section = document.createElement("section");
                 section.className = "home-section";
@@ -109,6 +115,7 @@ export async function showHome(app, scrollToCategory = null) {
                     <h2 class="category-title">${types[typeKey]}</h2>
                     <div class="products-grid"></div>
                 `;
+                
                 container.appendChild(section);
                 const grid = section.querySelector(".products-grid");
 
@@ -118,19 +125,11 @@ export async function showHome(app, scrollToCategory = null) {
             }
         });
 
-
-        if (scrollToCategory) {
-            setTimeout(() => {
-                const target = document.getElementById(`section-${scrollToCategory}`);
-                if (target) {
-                    const headerOffset = 100;
-                    const offsetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                }
-            }, 100);
-        }
-
     } catch (err) {
-        container.innerHTML = `<p class="error">Ошибка: ${err.message}</p>`;
+        console.error("Ошибка:", err);
+        const errorContainer = document.getElementById("sections-container");
+        if (errorContainer) {
+            errorContainer.innerHTML = `<p class="error">Ошибка загрузки: ${err.message}</p>`;
+        }
     }
 }
