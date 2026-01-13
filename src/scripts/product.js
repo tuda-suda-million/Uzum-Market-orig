@@ -1,9 +1,9 @@
 import { renderHeader } from "../components/Header.js";
-import "../styles/product.css"
-
+import "../styles/product.css";
+import { addToCart, addToFavorites } from "./api.js";
+import { updateCartCounter } from "./cart.js";
 
 export function showProduct(app, product) {
-
     const productUrl = `?id=${product.id}`;
     if (window.location.search !== productUrl) {
         window.history.pushState({ productId: product.id }, '', productUrl);
@@ -13,9 +13,8 @@ export function showProduct(app, product) {
 
     app.innerHTML = `
         ${renderHeader()}
-<div class="product-container">
+        <div class="product-container">
             <div class="product-card-view">
-                
                 <div class="product-media-section">
                     <div class="thumbnails-vertical">
                         ${product.media.map((url, index) => `
@@ -54,7 +53,7 @@ export function showProduct(app, product) {
                     </div>
 
                     <div class="p-actions">
-                        <button class="add-to-cart-full">Добавить в корзину</button>
+                        <button class="add-to-cart-full" id="add-main">Добавить в корзину</button>
                         <button class="add-to-fav-full">Добавить в избранное</button>
                     </div>
                 </div>
@@ -68,36 +67,67 @@ export function showProduct(app, product) {
         </div>
     `;
 
-           document.getElementById('go-home').addEventListener('click', () => {
-        window.history.pushState({}, '', '/');
-        location.reload();
-    });
-
-    window.onpopstate = function() {
-    location.reload();
-};
-
     const counterText = document.getElementById('counter');
     const btnPlus = document.getElementById('increment');
     const btnMinus = document.getElementById('decrement');
     const mainImg = document.getElementById('zoom-image');
+    const addBtn = document.getElementById('add-main');
 
-    btnPlus.addEventListener('click', () => {
-        let current = parseInt(counterText.innerText);
-        if (current < 7) {
-           counterText.innerText = current + 1;
-        } else {
-            alert("Максимальное количетсво для заказа: 7 шт.");
-        }
-    
-    });
+    if (btnPlus && counterText) {
+        btnPlus.addEventListener('click', () => {
+            let current = parseInt(counterText.innerText);
+            if (current < 7) {
+                counterText.innerText = current + 1;
+            } else {
+                alert("Максимальное количество для заказа: 7 шт.");
+            }
+        });
+    }
 
-    btnMinus.addEventListener('click', () => {
-        let current = parseInt(counterText.innerText);
-        if (current > 1) {
-            counterText.innerText = current - 1;
-        }
+    if (btnMinus && counterText) {
+        btnMinus.addEventListener('click', () => {
+            let current = parseInt(counterText.innerText);
+            if (current > 1) {
+                counterText.innerText = current - 1;
+            }
+        });
+    }
+
+    if (addBtn && counterText) {
+        addBtn.addEventListener('click', () => {
+            const countToAdd = parseInt(counterText.innerText);
+            
+            addToCart(product.id, countToAdd);
+            
+            updateCartCounter();
+
+            const originalText = addBtn.textContent;
+            addBtn.textContent = "Товар добавлен!";
+            addBtn.style.background = "#20b41c";
+            addBtn.style.pointerEvents = "none";
+            
+            setTimeout(() => {
+                addBtn.textContent = originalText;
+                addBtn.style.background = ""; 
+                addBtn.style.pointerEvents = "auto";
+            }, 1500);
+        });
+    }
+
+    const favBtn = app.querySelector('.add-to-fav-full');
+
+if (favBtn) {
+    favBtn.addEventListener('click', () => {
+
+        addToFavorites(product.id);
+
+        favBtn.style.color = "#ff4500"; 
+        favBtn.textContent = "В избранном";
+        
+
     });
+}
+
     document.querySelectorAll('.thumb-frame').forEach(frame => {
         frame.addEventListener('click', () => {
             document.querySelectorAll('.thumb-frame').forEach(f => f.classList.remove('active'));
@@ -105,4 +135,12 @@ export function showProduct(app, product) {
             mainImg.src = frame.dataset.url;
         });
     });
+
+    const goHome = document.getElementById('go-home');
+    if (goHome) {
+        goHome.addEventListener('click', () => {
+            window.history.pushState({}, '', '/');
+            location.reload(); 
+        });
+    }
 }

@@ -5,6 +5,33 @@ import { toggleFavorite } from "./favorite.js";
 import { renderFavoritePage } from "./favorite.js";
 import { addToCart } from "./api.js";
 import { updateCartCounter } from "./cart.js";
+import { getAllProducts } from "./api.js";
+import { renderProducts } from "./home.js";
+
+
+export function initSearch() {
+    const searchInput = document.querySelector('#search-input');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', async (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            const data = await getAllProducts();
+            const allProducts = data.goods || [];
+            const filtered = allProducts.filter(product => 
+                product.title.toLowerCase().includes(query)
+            );
+            const container = document.querySelector('.products-grid'); 
+            
+            if (filtered.length > 0) {
+                renderProducts(filtered, container); 
+            } else if (query.length > 0) {
+                container.innerHTML = `<h2 class="no-results">По запросу "${query}" ничего не найдено</h2>`;
+            } else {
+                renderProducts(allProducts, container);
+            }
+        });
+    }
+}
 
 document.addEventListener('click', (e) => {
     const favBtn = e.target.closest('.favorite-btn');
@@ -45,36 +72,30 @@ document.addEventListener('click', async (e) => {
     const cartBtn = e.target.closest('.add-to-cart-small');
 
     if (cartBtn) {
+        e.stopImmediatePropagation();
         const id = cartBtn.getAttribute('data-id');
-        const originalBg = cartBtn.style.backgroundColor;
-        e.preventDefault();
-        const productId = cartBtn.getAttribute('data-id');
+        if (!id) return;
 
-        try {
-            await addToCart(productId);
-            
-            let localCart = JSON.parse(localStorage.getItem("cart") || "[]");
-            const item = localCart.find(i => i.id === Number(productId));
-            if (item) item.quantity++; else localCart.push({id: Number(productId), quantity: 1});
-            localStorage.setItem("cart", JSON.stringify(localCart));
+        addToCart(id);
 
-            const originalContent = cartBtn.innerHTML;
-
-            addToCart(id);
+        if (typeof updateCartCounter === 'function') {
             updateCartCounter();
+        }
 
-            cartBtn.innerHTML = "✓";
-            cartBtn.style.background = "#20b41c";
-            setTimeout(() => {
+        const originalBg = window.getComputedStyle(cartBtn).backgroundColor;
+
+        const originalContent = cartBtn.innerHTML;
+        cartBtn.innerHTML = "✓";
+        cartBtn.style.background = "#7000ff"
+        cartBtn.style.pointerEvents = "none"; 
+        cartBtn.style.color = "white"
+
+        setTimeout(() => {
             cartBtn.innerHTML = originalContent;    
             cartBtn.style.backgroundColor = originalBg; 
             cartBtn.style.color = "";              
             cartBtn.style.pointerEvents = "auto";
-            }, 1000);
-
-        } catch (err) {
-            console.error("Ошибка при добавлении:", err);
-        }
+        }, 700);
     }
 });
 

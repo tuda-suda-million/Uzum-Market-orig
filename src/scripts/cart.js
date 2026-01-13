@@ -16,8 +16,36 @@ export async function renderCartPage(app) {
     app.innerHTML = "";
 
     const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (localCart.length === 0) {
+        app.innerHTML = `
+            ${renderHeader()}
+            <div class="empty-cart-container">
+                <div class="empty-cart-content">
+                    <img src="./images/shopocat 1.png" alt="Пустая корзина" class="empty-cart-img">
+                    <h2 class="empty-cart-title">В корзине пока нет товаров</h2>
+                    <p class="empty-cart-text">Начните с подборок на главной странице или используйте поиск</p>
+                    <button class="go-home-btn">На главную</button>
+                </div>
+            </div>
+        `;
+
+        
+        const homeBtn = app.querySelector('.go-home-btn');
+        if (homeBtn) {
+            homeBtn.addEventListener('click', () => {
+                window.location.hash = ''; 
+                window.location.reload();  
+            });
+        }
+        updateCartCounter();
+        return; 
+    }
+
     const data = await getAllProducts();
     const products = data.goods || [];
+
+
 
     const cartProducts = localCart.map(item => {
         const product = products.find(p => p.id === item.id);
@@ -67,6 +95,20 @@ export async function renderCartPage(app) {
 function setupEventListeners(app) {
     app.onclick = (e) => {
         const btn = e.target;
+        if (btn.classList.contains('checkout-btn')) {
+           
+            alert("Ваша покупка оформлена. Вперед за следующими покупками!!!");
+
+            localStorage.removeItem("cart");
+            if (typeof updateCartCounter === 'function') {
+                updateCartCounter();
+            }
+            window.location.hash = ''; 
+            window.location.search = ''; 
+            window.location.href = '/'; 
+            return;
+        }
+
         const row = btn.closest('.cart-item-row');
         if (!row) return;
 

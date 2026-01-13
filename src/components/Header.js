@@ -2,6 +2,8 @@ import "../scripts/catalog.js"
 import "../styles/favorite.css"
 export function renderHeader() {
   const userName = localStorage.getItem("username");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return `
       <header class="uzum-header">
@@ -31,11 +33,11 @@ export function renderHeader() {
              <span>Избранное</span>
            </div>
           <div class="nav-item">
-            <div class="cart-wrapper">
-               
-            </div>
+           <div class="cart-wrapper"></div>
             <span class="header-cart">Корзина</span>
-            <span class="cart-count">3</span>
+            <span class="header-cart-count" style="display: ${totalCount > 0 ? 'flex' : 'none'}">
+            ${totalCount}
+            </span>
           </div>
         </div>
       </div>

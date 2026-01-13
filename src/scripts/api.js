@@ -28,24 +28,44 @@ export async function getAllProducts() {
   }
 }
 
-export function addToCart(productId) {
-  const id = Number(productId);
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  const existingItem = cart.find(item => item.id === id);
+export function addToCart(productId, count = 1) {
+    const id = Number(productId);
+    const quantityToAdd = Number(count);
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-  if (existingItem) {
-    if (existingItem.quantity >= 7) {
-            alert("Нельзя заказать более 7 единиц одного товара");
-            return { success: false, message: "limit_reached" };
+    const index = cart.findIndex(item => item.id === id);
+
+    if (index !== -1) {
+        const newTotal = cart[index].quantity + quantityToAdd;
+        
+        if (newTotal <= 7) {
+            cart[index].quantity = newTotal;
+        } else {
+            cart[index].quantity = 7;
+            alert("Максимальное количество в корзине — 7 шт.");
         }
-        existingItem.quantity += 1;
     } else {
-        cart.push({ id: id, quantity: 1 });
+        cart.push({ 
+            id: id, 
+            quantity: quantityToAdd > 7 ? 7 : quantityToAdd 
+        });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    return { success: true };
 }
 
+export function addToFavorites(productId) {
+    const id = Number(productId);
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const isExist = favorites.includes(id);
 
+    if (!isExist) {
+        favorites.push(id);
+        alert("Товар добавлен в избранное!");
+    } else {
+        favorites = favorites.filter(favId => favId !== id);
+        alert("Товар удален из избранного");
+    }
 
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+}
