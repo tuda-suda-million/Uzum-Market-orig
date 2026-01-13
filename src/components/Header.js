@@ -34,7 +34,7 @@ export function renderHeader() {
             <div class="cart-wrapper">
                
             </div>
-            <span>Корзина</span>
+            <span class="header-cart">Корзина</span>
             <span class="cart-count">3</span>
           </div>
         </div>

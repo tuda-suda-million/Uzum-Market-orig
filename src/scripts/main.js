@@ -58,6 +58,16 @@ document.addEventListener('click', (e) => {
 };
 })
 
+import { renderCartPage } from "./cart.js";
+
+document.addEventListener('click', (e) => {
+    const cartLink = e.target.closest('.header-cart') || e.target.closest('#cart-link');
+    if (cartLink) {
+        e.preventDefault();
+        renderCartPage(document.getElementById('app'));
+    }
+});
+
 const app = document.getElementById("app");
 const token = localStorage.getItem("access-token");
 

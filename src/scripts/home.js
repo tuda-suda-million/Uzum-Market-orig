@@ -2,7 +2,7 @@ import "../styles/home.css";
 import { showProduct } from "./product.js";
 import "../styles/header.css";
 import { isFavorite } from "./favorite.js";
-import { renderHeader } from "../components/Header.js";
+    import { renderHeader } from "../components/Header.js";
 import "../styles/favorite.css"
 import { getAllProducts, addToCart } from "./api.js";
 
